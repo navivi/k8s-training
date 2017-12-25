@@ -20,12 +20,11 @@
   
 ### Specifications Examples
 #### nginx-svc.yaml
-```
+```yaml
 kind: Service
 apiVersion: v1
 metadata:
-  # The name of your service
-  name: nginx 
+  name: nginx  # The name of your service
 spec:
   selector:
     app: nginx  # defines how the Service finds which Pods to target. Should match labels defined in the Pod template
@@ -33,10 +32,10 @@ spec:
   - protocol: TCP
     port: 80 # The service port
     targetPort: 9376 # The pods port
-  type:NodePort # [OPTIONAL] If you want ClusterIP you can drop this line 
+  type: NodePort # [OPTIONAL] If you want ClusterIP you can drop this line 
 ```
 #### nginx-deploy.yaml
-```
+```yaml
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
