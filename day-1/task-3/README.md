@@ -24,7 +24,8 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: nginx # The name of your service
+  # The name of your service
+  name: nginx 
 spec:
   selector:
     app: nginx  # defines how the Service finds which Pods to target. Should match labels defined in the Pod template
