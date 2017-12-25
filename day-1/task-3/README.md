@@ -5,7 +5,7 @@
   + The MongoDB server is listening on port 27017
   + Make sure you create ONLY one relica of this pod
   + The service type of this microservice should not be NodePort - so don't add **type** to yaml
-2. Create a Deploy and a Service to Lets-Chat-APP microservice using ** kubectl create -f app-deploy.yaml app-svc.yaml** command
+2. Create a Deploy and a Service to Lets-Chat-APP microservice using **kubectl create -f app-deploy.yaml app-svc.yaml** command
   + The Image name of Lets-Chat-App: **navivi/lets-chat-app:v1**
   + The App Node.js server is listening on port 8080
   + You may configure the Lets-Chat-App with the MongoDB service-name and port by passing it environment variable name: **LCB_DATABASE_URI** and value: mongodb://mongo-service-name:mongo-service-port/letschat
