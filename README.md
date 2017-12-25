@@ -15,6 +15,6 @@ st->op1->op2
 ```
 ### Tasks
 1.  [Deploy and Explore Lets-Chat-Web](day-1/task-1/README.md)
-2.  [Expose, Scale and Update Lets-Chat-Web]((day-1/task-2/README.md))
+2.  [Expose, Scale and Update Lets-Chat-Web](day-1/task-2/README.md)
 3.  [Deploy and Discover all Lets-Chat microservices](day-1/task-3/README.md)
 4.  Configure your App
