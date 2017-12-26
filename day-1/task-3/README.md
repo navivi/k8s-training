@@ -1,23 +1,22 @@
-# Task-3: Deploy and Discover all Lets-Chat microservices
-1. Create a Deploy and a Service to Lets-Chat-DB microservice using **kubectl create -f db-deploy.yaml db-svc.yaml** command
-  + You can use bellow [Specifications Examples](#specifications-examples) to define the yaml files
-  + You can use the public latest image. Image name: **mongo**
-  + The MongoDB server is listening on port 27017
-  + Make sure you create ONLY one relica of this pod
-  + The service type of this microservice should not be NodePort - so don't add **type** to yaml
-2. Create a Deploy and a Service to Lets-Chat-APP microservice using **kubectl create -f app-deploy.yaml app-svc.yaml** command
-  + The Image name of Lets-Chat-App: **navivi/lets-chat-app:v1**
-  + The App Node.js server is listening on port 8080
-  + You may configure the Lets-Chat-App with the MongoDB service-name and port by passing it environment variable name: **LCB_DATABASE_URI** and value: mongodb://mongo-service-name:mongo-service-port/letschat
-  + The service type of this microservice should not be NodePort - so don't add **type** to yaml
-3. Delete the previous Deploy and Service of Lets-Chat-Web microservice and create new Deploy and Service of Lets-Chat-Web using **kubectl create -f web-deploy.yaml web-svc.yaml** command
-  + The Image name of Lets-Chat-Web:  **navivi/lets-chat-web:v1**
-  + The Web nginx server is listening on port 80
-  + You may configure the Lets-Chat-Web with the Lets-Chat-App service-name and port by passing it 2 environment variables: **APP_HOST** and **APP_PORT**
-  + You should disable the code feature. You may confugre the Lets-Chat-Web with environment variable name: **CODE_ENABELED** and value "false".
-  + The service type of this microservice should be NodePort
-4. Open the service on the Node Port and accessthe login page. Create user and login. The Open a different browser and create another user. Verfiy you can chat between the users.
-  
+# Task-3: Rolling-Update Lets-Chat-Web
+1. Delete the previous Deploy of Lets-Chat-Web microservice and create new Deploy using **kubectl create -f web-deploy.yaml** command
+  > * You can use bellow [Specifications Examples](#specifications-examples) to define the yaml files
+  > * The Image name of Lets-Chat-Web:  **navivi/lets-chat-web:v1**
+  > * The Web server is listening on port 80
+  > * Disable the code feature by configuring the Lets-Chat-Web with environment variable name: **CODE_ENABELED** and value "false".
+  > * Add a second label to the pods (in spec.template.labels of web-deploy.yaml) of **version:v1** 
+2. Create a Service to Lets-Chat-Web microservice using **kubectl create -f web-svc.yaml** command
+  > * The service type of this microservice should be NodePort
+3. Verify the pods are ready and you are able to access Lets-Chat-Web UI via browser using node-port
+  > * Get the Service Node port using `kubectl get svc` command. Then open the browser and acceess Lets-Chat-Web UI using kube-node-1:node-port.  Make sure you can access the UI also from the other 2 nodes.
+  > * Check the logs of the pods - and see it runs v1 image
+4. Update the deployment, using `kubectl apply -f web-deploy.yaml` command, and change the image to **navivi/lets-chat-web:v2** and also change the label to **version: v2** in spec.template.labels
+  > * Explore the pods rolling update using `kubectl get po --show-labels`
+  > * Verify the update using `kubectl logs new-pod-name`
+5. Rollback to the previous deployment using `kubectl rollout undo deployment deploy-name`
+  > * Explore the pods rollback using `kubectl get po --show-labels`
+  > * Verify the update using `kubectl logs new-pod-name`
+
 ### Specifications Examples
 #### nginx-svc.yaml
 ```yaml
@@ -60,4 +59,12 @@ spec:
         env: # [OPTIONAL] add environments values 
         - name: SOME_ENV_NAME
           value: some-env-value
+```
+
+# Scale a deployment named 'foo' to 3.
+kubectl scale deploy my-app --replicas=3
+
+# Delete a service
+kubectl delete svc my-svc-name
+
 ```
