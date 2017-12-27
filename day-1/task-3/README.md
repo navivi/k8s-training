@@ -60,11 +60,3 @@ spec:
         - name: SOME_ENV_NAME
           value: some-env-value
 ```
-
-# Scale a deployment named 'foo' to 3.
-kubectl scale deploy my-app --replicas=3
-
-# Delete a service
-kubectl delete svc my-svc-name
-
-```
