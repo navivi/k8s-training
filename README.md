@@ -21,4 +21,4 @@ In this training we will deploy and scale **let's chat** application on kubernet
 10. Helm Charts
 
 ### Installations
-[Kubernetes Cluster for Training](installations/README)
+[Kubernetes Cluster for Training](installations/README.md)
