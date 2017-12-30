@@ -1,5 +1,5 @@
 # Task-3: Rolling-Update Lets-Chat-Web
-1. Delete the previous Deployment, using  **kubectl delete deploy** command, of Lets-Chat-Web microservice and create new Deploy using **kubectl create -f web-deploy.yaml** command
+1. Delete the previous Deployment, using  **kubectl delete deploy** command, of Lets-Chat-Web microservice and create new Deployment using **kubectl create -f web-deploy.yaml** command
   > * You can use bellow [Specifications Examples](#specifications-examples) to define the yaml files
   > * The Image name of Lets-Chat-Web:  **navivi/lets-chat-web:v1**
   > * The Web server is listening on port 80
