@@ -3,7 +3,7 @@
   > * You can use bellow [Specifications Examples](#specifications-examples) to define the yaml files
   > * The Image name of Lets-Chat-Web:  **navivi/lets-chat-web:v1**
   > * The Web server is listening on port 80
-  > * Disable the code feature by configuring the Lets-Chat-Web with environment variable name: **CODE_ENABELED** and value "false".
+  > * Disable the code feature by configuring the Lets-Chat-Web with environment variable name: **CODE_ENABLED** and value "false".
   > * Add a second label to the pods (in spec.template.labels of web-deploy.yaml) of **version:v1** 
 2. Create a Service to Lets-Chat-Web microservice using **kubectl create -f web-svc.yaml** command
   > * The service type of this microservice should be NodePort
