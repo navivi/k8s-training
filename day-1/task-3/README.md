@@ -10,7 +10,7 @@
 3. Verify the pods are ready and you are able to access Lets-Chat-Web UI via browser using node-port
   > * Get the Service Node port using `kubectl get svc` command. Then open the browser and acceess Lets-Chat-Web UI using kube-node-1:node-port.  Make sure you can access the UI also from the other 2 nodes.
   > * Check the logs of the pods - and see it runs v1 image
-4. Update the deployment, using `kubectl apply -f web-deploy.yaml` command, and change the image to **navivi/lets-chat-web:v2** and also change the label to **version: v2** in spec.template.labels
+4. Update the deployment, using `kubectl apply -f web-deploy.yaml` command, and change the image to **navivi/lets-chat-web:v2** and also change the label to **version: v2** in spec.template.metadata.labels
   > * Explore the pods rolling update using `kubectl get po --show-labels`
   > * Verify the update using `kubectl logs new-pod-name`
 5. Rollback to the previous deployment using `kubectl rollout undo deployment deploy-name`
@@ -30,7 +30,7 @@ spec:
   ports:
   - protocol: TCP
     port: 80 # The service port
-    targetPort: 9376 # The pods port
+    targetPort: 80 # The pods port
   type: NodePort # [OPTIONAL] If you want ClusterIP you can drop this line 
 ```
 #### nginx-deploy.yaml
@@ -42,7 +42,7 @@ metadata:
   labels:
     app: nginx  # The label of your deployment
 spec:
-  replicas: 3 # Number of replicated pods
+  replicas: 1 # Number of replicated pods
   selector:
     matchLabels:
       app: nginx # defines how the Deployment finds which Pods to manage. Should match labels defined in the Pod template
