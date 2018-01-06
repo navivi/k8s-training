@@ -1,4 +1,4 @@
-# Task-4: Deploy and Discover all Lets-Chat microservices
+# Task-4: Discover all Lets-Chat microservices
 ![Lets-Chat Architecture](task4-architecture.png)
 1. Create a Deploy and a Service to Lets-Chat-DB microservice using **kubectl create -f db-deploy.yaml db-svc.yaml** command
   > * You can use bellow [Specifications Examples](#specifications-examples) to define the yaml files
