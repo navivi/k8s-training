@@ -6,13 +6,11 @@
   > * You may use the health-check command for mongodb: `mongo --eval "db.adminCommand('ping')"`
 3. Add Liveness and Readiness Probes to Lets-Chat-Web yaml file and update with **kubectl apply -f web-deploy.yaml** command
   > * One way to get Lets-Chat-Web health-check is: `curl web-host:web-port/media/favicon.ico`. (But you should use httpGet probe. Not curl!)
-4. Create a health problem in one of the Lets-Chat-App pods and verify it is removed from the Service endpoints.
-  > * First scale the Lets-Chat-App to 3 replicaCount.
-  > * Delete the media folder inside one of the Lets-Chat-App pods. You can use **kubectl exec -it pod-name -- rm -rf media**
-  > * Verify the pod is Unhealth - using **kubectl describe pod-name** 
-  > * Verfiy the pod is not in the Ready endpoints of the service - using **kubectl get endpoints app-name**
-  > * Run **kubectl port-forward pod-name localport:podport** and see in the Browser the pod 500 response
-  > * Verify in the Browser, when using the node-port to the service - you get responses only from other pods
+4. Create a health problem in the Lets-Chat-App pod and verify it is becoming Unhealthy and goes throw self healing.
+  > * Delete the media folder inside the Lets-Chat-App pod. You can use **kubectl exec -it pod-name -- rm -rf media**
+  > * Verify the pod is Unhealthy - using **kubectl describe pod-name** and **kubectl get po**
+  > * Verfiy the Browser is not responding with Exception stacktrace, but waiting for the Backend to respond.
+  > * Verify the pod was auto restarted and became healthy again
   
 ### Specifications Examples
 #### http-probes.yaml
