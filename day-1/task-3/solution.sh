@@ -144,7 +144,7 @@ rollout-undo(){
   kubectl rollout undo deployment lc-web
   sleep 1
 }
-
+clear
 echo
 echo "████████╗  █████╗  ███████╗ ██╗  ██╗        ██████╗      "
 echo "╚══██╔══╝ ██╔══██╗ ██╔════╝ ██║ ██╔╝        ╚════██╗ ██╗ "
@@ -163,16 +163,19 @@ echo -e "${GREEN}Cleaning first..................${NC}"
 clean
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Writing web-deploy.yaml file:${NC}"
 echo "----------------------------------------------"
 write-web-deploy-yaml v1
 echo "----------------------------------------------"
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Create the new Deployment:${NC}"
 create-web-deploy
 echo -n "Next >>"
 read text
+clear
 echo -e "${ORANGE}---------------------------------------------------------------------------------------------"
 echo -e "2. Create a Service to Lets-Chat-Web microservice using kubectl create -f web-svc.yaml command${NC}"
 echo -n ">>"
@@ -183,10 +186,12 @@ write-web-svc-yaml
 echo "----------------------------------------------"
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Create the new Service:${NC}"
 create-web-svc
 echo -n "Next >>"
 read text
+clear
 echo -e "${ORANGE}---------------------------------------------------------------------------------------------"
 echo -e "3. Verify the pods are ready and you are able to access Lets-Chat-Web UI via browser using node-port${NC}"
 echo -n ">>"
@@ -195,14 +200,17 @@ echo -ne "${GREEN}Verify the pods are ready, ${NC}"
 get-pods-every-2-sec-until-running
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Going to curl the Service on each node:${NC}"
 curl-each-node
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Checking the logs of each pod:${NC}"
 check-logs-in-pods
 echo -n "Next >>"
 read text
+clear
 echo -e "${ORANGE}---------------------------------------------------------------------------------------------"
 echo -e "4. Update the deployment, using kubectl apply -f web-deploy.yaml command, and change the image to "
 echo -e "    navivi/lets-chat-web:v2 and also change the label to version: v2 in spec.template.labels${NC}"
@@ -214,18 +222,22 @@ write-web-deploy-yaml v2
 echo "----------------------------------------------"
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Apply the changed Deployment:${NC}"
 apply-web-deploy
 echo -n "Next >>"
 read text
+clear
 echo -ne "${GREEN}Verify the update :${NC}"
 get-pods-every-2-sec-until-running
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Checking the logs of each pod:${NC}"
 check-logs-in-pods
 echo -n "Next >>"
 read text
+clear
 echo -e "${ORANGE}---------------------------------------------------------------------------------------------"
 echo -e "4. Rollback to the previous deployment using kubectl rollout undo deployment deploy-name${NC}"
 echo -n ">>"
@@ -233,6 +245,7 @@ read text
 rollout-undo
 echo -n "Next >>"
 read text
+clear
 echo -ne "${GREEN}Verify the rollout undo :${NC}"
 get-pods-every-2-sec-until-running
 

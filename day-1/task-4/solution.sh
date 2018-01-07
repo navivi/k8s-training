@@ -107,7 +107,7 @@ metadata:
   labels:
     app: lc-app  # The label of your deployment
 spec:
-  replicas: 3 # Number of replicated pods
+  replicas: 1 # Number of replicated pods
   selector:
     matchLabels:
       app: lc-app # defines how the Deployment finds which Pods to manage. Should match labels defined in the Pod template
@@ -159,7 +159,7 @@ metadata:
   labels:
     app: lc-web  # The label of your deployment
 spec:
-  replicas: 1 # Number of replicated pods
+  replicas: 3 # Number of replicated pods
   selector:
     matchLabels:
       app: lc-web # defines how the Deployment finds which Pods to manage. Should match labels defined in the Pod template
@@ -274,30 +274,36 @@ echo -e "${GREEN}Cleaning first..................${NC}"
 clean
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Writing db-deploy.yaml file:${NC}"
 echo "----------------------------------------------"
 write-db-deploy-yaml
 echo "----------------------------------------------"
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Create the db Deployment:${NC}"
 create-deploy db-deploy.yaml
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Writing db-svc.yaml file:${NC}"
 echo "----------------------------------------------"
 write-db-svc-yaml
 echo "----------------------------------------------"
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Create the db Service:${NC}"
 create-svc db-svc.yaml
 echo -n "Next >>"
 read text
+clear
 echo -ne "${GREEN}Verify the pods are ready, ${NC}"
 get-pods-every-2-sec-until-running lb-db
 echo -n "Next >>"
 read text
+clear
 echo -e "${ORANGE}---------------------------------------------------------------------------------------------"
 echo -e "2. Create a Deploy and a Service to Lets-Chat-APP microservice "
 echo -e "    using kubectl create -f app-deploy.yaml app-svc.yaml command${NC}"
@@ -309,24 +315,29 @@ write-app-deploy-yaml
 echo "----------------------------------------------"
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Create the app Deployment:${NC}"
 create-deploy app-deploy.yaml
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Writing app-svc.yaml file:${NC}"
 echo "----------------------------------------------"
 write-app-svc-yaml
 echo "----------------------------------------------"
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Create the app Service:${NC}"
 create-svc app-svc.yaml
 echo -n "Next >>"
 read text
+clear
 echo -ne "${GREEN}Verify the pods are ready, ${NC}"
 get-pods-every-2-sec-until-running lb-app {1..3}
 echo -n "Next >>"
 read text
+clear
 echo -e "${ORANGE}---------------------------------------------------------------------------------------------"
 echo -e "3. Update the previous Deploy of Lets-Chat-Web to "
 echo -e "    connect to Lets-Chat-App service using kubectl apply -f web-deploy.yaml${NC}"
@@ -338,26 +349,31 @@ write-web-deploy-yaml
 echo "----------------------------------------------"
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Create the web Deployment:${NC}"
 create-deploy web-deploy.yaml
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Writing web-svc.yaml file:${NC}"
 echo "----------------------------------------------"
 write-web-svc-yaml
 echo "----------------------------------------------"
 echo -n "Next >>"
 read text
+clear
 echo -e "${GREEN}Create the web Service:${NC}"
 create-svc web-svc.yaml
 echo -n "Next >>"
 read text
+clear
 echo -ne "${GREEN}Verify the pods are ready, ${NC}"
 get-pods-every-2-sec-until-running lb-web {1..3}
 echo -n "Next >>"
 read text
+clear
 echo -e "${ORANGE}---------------------------------------------------------------------------------------------"
-echo -e "3. Open the service on the Node Port and access the login page.${NC}"
+echo -e "4. Open the service on the Node Port and access the login page.${NC}"
 echo -n ">>"
 read text
 echo -e "${GREEN}Going to curl the Service on each node:${NC}"
