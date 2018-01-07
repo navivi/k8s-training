@@ -15,9 +15,9 @@ In this training we will deploy and scale **let's chat** application on kubernet
 4.  [Discover all Lets-Chat microservices](day-1/task-4/README.md)
 5.  [Configure Liveness and Readiness Probes to Pods](day-2/task-5/README.md)
 6.  [Define ConfigMap and Secrets](day-2/task-6/README.md)
-7.  Add ConfigMap and Secrets data to a Volume
-8.  Volume Mount, to 2 Containers in a Pod, the Pod storage
-9.  Volume Mount Directory from the Node File-System 
+7.  [Add ConfigMap and Secrets data to a Volume](day-2/task-7/README.md)
+8.  [Volume Mount Directory from the Node File-System](day-2/task-8/README.md)
+9.  Volume Mount, to 2 Containers in a Pod, the Pod storage
 10. Ingress and Nginx-Controller
 11. PersistentVolume and PersistentVolumeClaim
 12. StatefullSet
