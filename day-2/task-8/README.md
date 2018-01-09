@@ -45,11 +45,4 @@ spec:
   nodeSelector:
     disktype: ssd
 ```
-#### secret.yaml
-First get the values in base64:
-```bash
-$ echo -n "admin" | base64
-YWRtaW4=
-$ echo -n "1f2d1e2e67df" | base64
-MWYyZDFlMmU2N2Rm
-```
+
