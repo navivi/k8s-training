@@ -1,14 +1,18 @@
-# Task-8: Volume Mount Directory from the Node File-System
-1. Add label to one of the nodes using **kubectl label node kube-node-1 app=letschat** command
-2. Create some directory for mongofb inside the node 
-  > * You can use `kube-ssh kube-node-1`
-3. Add nodeSelector to the Lets-Chat-DB Deployment and volume to the hostPath
-  > * The mountPath for persisting mongodb should be /data/db
-4. Check in Browser, even after restart pod User is persistent
-
+# Task-8: Volume Mount, to 2 Containers in a Pod, the Pod storage
+![Lets-Chat Architecture](2-containers-pod.png)
+1. Add another container to Lets-Chat-Web Pod. The second conatiner will be 
+   responsible to logrotate the log file of Lets-Chat-Web.
+   > * The logs of lets-chat-web, nginx controller, are located in **/var/log/nginx/letschat**
+   > * The second Container image tag is **blacklabelops/logrotate**
+   > * The second Container is not listening on any port
+   > * You may come-up with some mount-path for the logs in the second container
+   > * You should provide the second container Env variable **LOGS_DIRECTORIES** with the value of the mount-path
+   > * Provide the second container another Env variable **LOGROTATE_SIZE** with value 100k, meaning it will rotate when log file exceeds 100 kilobytes.
+   > * Create a volume in the pod - of type emptyDir. That volume should be mounted to both containers
+2. Open the browser and refresh number of times (Each refresh generates log lines and increase the log file). Then enter the container using **kubectl exec -it ..** and check the directory **/var/log/nginx/letschat**. Do you see rotated log files?
   
 ### Specifications Examples
-#### pod-with-hostPath.yaml
+#### pod-with-2-containers-sharing-volume.yaml
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -16,40 +20,17 @@ metadata:
   name: test-pd
 spec:
   containers:
-  - image: k8s.gcr.io/test-webserver
-    name: test-container
+  - name: conainer1-name
+    image: k8s.gcr.io/test-webserver
     volumeMounts:
-    - mountPath: /test-pd
-      name: test-volume
+    - name: shared-volume
+      mountPath: /var/test-pd
+  - name: conainer2-name
+    image: busy-box
+    volumeMounts:
+    - name: shared-volume
+      mountPath: /etc/my-path
   volumes:
-  - name: test-volume
-    hostPath:
-      # directory location on host
-      path: /data
-      # this field is optional
-      type: Directory
-```
-#### pod-with-node-selector.yaml
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nginx
-  labels:
-    env: test
-spec:
-  containers:
-  - name: nginx
-    image: nginx
-    imagePullPolicy: IfNotPresent
-  nodeSelector:
-    disktype: ssd
-```
-#### secret.yaml
-First get the values in base64:
-```bash
-$ echo -n "admin" | base64
-YWRtaW4=
-$ echo -n "1f2d1e2e67df" | base64
-MWYyZDFlMmU2N2Rm
+  - name: shared-volume
+    emptyDir: {}
 ```
