@@ -31,6 +31,7 @@ spec:
     - name: shared-volume
       mountPath: /etc/my-path
   volumes:
+<<<<<<< HEAD
   - name: shared-volume
     emptyDir: {}
 ```
