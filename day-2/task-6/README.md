@@ -1,6 +1,6 @@
 # Task-6: Define ConfigMap and Secrets
 In this task we woul like to get Environment Variables values from ConfigMap and Secret. The value of **CODE_ENABLED** in Lets-Chat-Web will be taken from ConfigMap. And we'll create new Environemnt Variables for Lets-Chat-App with DB user and password and their values will be taken from Secret.
-1. Create ConfigMap in yaml file using **kubectl create --save-config -f lc-config.yaml** command
+1. Create ConfigMap in yaml file using **kubectl create -f lc-config.yaml** command
   > * You can use bellow [Specifications Examples](#specifications-examples) to define config yaml file
   > * The ConfigMap should contain property **code.enabled: false**
 2. Update Lets-Chat-Web Deployment to take the value of **CODE_ENABLED** from the ConfigMap
