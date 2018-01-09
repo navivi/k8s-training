@@ -1,4 +1,4 @@
-# Task-8: Volume Mount, to 2 Containers in a Pod, the Pod storage
+# Task-8: Volume Mount the Pod Storage into 2 Containers in it. The emptyDir Volume
 ![Lets-Chat Architecture](2-containers-pod.png)
 1. Add another container to Lets-Chat-Web Pod. The second conatiner will be 
    responsible to logrotate the log file of Lets-Chat-Web.
@@ -31,7 +31,6 @@ spec:
     - name: shared-volume
       mountPath: /etc/my-path
   volumes:
-<<<<<<< HEAD
   - name: shared-volume
     emptyDir: {}
 ```
