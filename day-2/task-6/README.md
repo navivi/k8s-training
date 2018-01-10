@@ -1,10 +1,11 @@
 # Task-6: Define ConfigMap and Secrets
-1. Create ConfigMap in yaml file using **kubectl create --save-config -f lc-config.yaml** command
+In this task we woul like to get Environment Variables values from ConfigMap and Secret. The value of **CODE_ENABLED** in Lets-Chat-Web will be taken from ConfigMap. And we'll create new Environemnt Variables for Lets-Chat-App with DB user and password and their values will be taken from Secret.
+1. Create ConfigMap in yaml file using **kubectl create -f lc-config.yaml** command
   > * You can use bellow [Specifications Examples](#specifications-examples) to define config yaml file
   > * The ConfigMap should contain property **code.enabled: false**
 2. Update Lets-Chat-Web Deployment to take the value of **CODE_ENABLED** from the ConfigMap
   > * Check what happens when you change the value in the configmap to "true"? Did the value in the pods auto changed?
-3. Create Secret in yaml file using **kubectl create --save-config -f db-secret.yaml** command
+3. Create Secret in yaml file using **kubectl create -f db-secret.yaml** command
   > * The Secret should contain properties with user and password to mongodb. Note the value should be in base64
 4. Update Lets-Chat-DB and Lets-Chat-APP Deployments to take the values from the Secret
   > * The Lets-Chat-DB should have 2 env variables named: **MONGO_INITDB_ROOT_USERNAME**, **MONGO_INITDB_ROOT_PASSWORD**
