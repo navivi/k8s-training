@@ -11,6 +11,9 @@
   > * Verify the pod is Unhealthy - using **kubectl describe pod-name** and **kubectl get po**
   > * Verfiy the Browser is not responding with Exception stacktrace, but waiting for the Backend to respond.
   > * Verify the pod was auto restarted and became healthy again
+
+## Solution
+The yaml files here, are output of task-4. You may execute solution.sh to get solution for this task
   
 ### Specifications Examples
 #### http-probes.yaml

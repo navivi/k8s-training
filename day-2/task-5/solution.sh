@@ -196,7 +196,24 @@ echo "   ██║    ██║  ██║ ███████║ ██║  �
 echo "   ╚═╝    ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝        ╚══════╝     "
 echo
 
-echo -e "${RED}Make sure you run this solution after you successfully executed Task 4 solution${NC}"
+echo -e "${RED}Would you like to install the previous solution first?${NC}"
+echo -n "Y/N: "
+read text
+if [[ $text == "Y" ]] || [[ $text == "y" ]]; then
+  # create the services
+  for svc in *-svc.yaml
+  do
+    echo -n "Creating $svc... "
+    kubectl create -f $svc
+  done
+
+  # create the replication controllers
+  for deploy in *-deploy.yml
+  do
+    echo -n "Creating $deploy... "
+    kubectl create -f $deploy
+  done
+fi
 echo -e "${ORANGE}---------------------------------------------------------------------------------------------"
 echo -e "1. Add Liveness and Readiness Probes to Lets-Chat-APP yaml file and "
 echo -e "    update with kubectl apply -f app-deploy.yaml command${NC}"
