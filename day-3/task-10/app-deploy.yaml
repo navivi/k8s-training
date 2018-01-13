@@ -1,0 +1,27 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: lc-app # The name of your deployment
+  labels:
+    app: lc-app  # The label of your deployment
+spec:
+  replicas: 1 # Number of replicated pods
+  selector:
+    matchLabels:
+      app: lc-app # defines how the Deployment finds which Pods to manage. Should match labels defined in the Pod template
+  template:
+    metadata:
+      labels:
+        app: lc-app # The label of the pod to match selectors
+    spec:
+      containers:
+      - name: lc-app # The container name
+        image: navivi/lets-chat-app:v1 # The DockerHub image
+        ports:
+        - containerPort: 8080 # Open pod port 80 for the container
+        env: # [OPTIONAL] add environments values 
+        - name: MONGO_HOST
+          value: lc-db
+        - name: MONGO_PORT
+          value: "27017"
+

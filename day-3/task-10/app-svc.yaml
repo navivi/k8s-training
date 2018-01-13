@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: lc-app  # The name of your service
+spec:
+  selector:
+    app: lc-app  # defines how the Service finds which Pods to target. Should match labels defined in the Pod template
+  ports:
+  - protocol: TCP
+    port: 8080 # The service port
+    targetPort: 8080 # The pods port
