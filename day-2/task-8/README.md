@@ -7,7 +7,9 @@
    > * The second Container is not listening on any port
    > * You may come-up with some mount-path for the logs in the second container
    > * You should provide the second container Env variable **LOGS_DIRECTORIES** with the value of the mount-path
-   > * Provide the second container another Env variable **LOGROTATE_SIZE** with value 100k, meaning it will rotate when log file exceeds 100 kilobytes.
+   > * Provide the second container another 2 Env variables:
+       **LOGROTATE_SIZE** with value 10k, meaning it will rotate when log file exceeds 10 kilobytes
+       **LOGROTATE_CRONSCHEDULE** with value "* * * * * *", meaning it will check if the log file exceeds the size every second
    > * Create a volume in the pod - of type emptyDir. That volume should be mounted to both containers
 2. Open the browser and refresh number of times (Each refresh generates log lines and increase the log file). Then enter the container using **kubectl exec -it ..** and check the directory **/var/log/nginx/letschat**. Do you see rotated log files?
   

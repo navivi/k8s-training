@@ -1,4 +1,5 @@
 # Task-9: Volume Mount Directory from the Node File-System
+In this task we would like to persist the DB data.
 1. Add label to one of the nodes using **kubectl label node kube-node-1 app=letschat** command
 2. Create some directory for mongofb inside the node 
   > * You can use `kube-ssh kube-node-1`

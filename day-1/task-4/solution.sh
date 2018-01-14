@@ -225,16 +225,20 @@ create-svc(){
 get-pods-every-2-sec-until-running(){
   echo -e "${GREEN}Every 2 sec, get pods:${NC}"
 
-  local pods_running_status=$(printf 'Running %.0s' $2)
+  if [[ $2 -eq 3 ]]; then
+    pods_running_status="Running Running Running"
+  else
+    pods_running_status="Running"
+  fi
 
-  while read pods_status <<< `kubectl get po | grep $1 | awk '{print $3}'`; [[ $pods_status -ne $pods_running_status ]]; do
-    echo "\$ kubectl get po -o wide --show-labels"
-    kubectl get po -o wide --show-labels
+  while read pods_status <<< `kubectl get po | grep $1 | awk '{print $3}'`; [[ "$pods_status" != "$pods_running_status" ]]; do
+    echo "\$ kubectl get po -o wide --show-labels | grep $1 "
+    kubectl get po -o wide --show-labels | grep $1
     sleep 2
     echo "-------------------------------------"
   done  
   echo "\$ kubectl get po -o wide --show-labels"
-  kubectl get po -o wide --show-labels
+  kubectl get po -o wide --show-labels | grep $1
 }
 
 get-web-svc-node-port(){
@@ -300,7 +304,7 @@ echo -n "Next >>"
 read text
 clear
 echo -ne "${GREEN}Verify the pods are ready, ${NC}"
-get-pods-every-2-sec-until-running lb-db
+get-pods-every-2-sec-until-running lc-db
 echo -n "Next >>"
 read text
 clear
@@ -334,7 +338,7 @@ echo -n "Next >>"
 read text
 clear
 echo -ne "${GREEN}Verify the pods are ready, ${NC}"
-get-pods-every-2-sec-until-running lb-app {1..3}
+get-pods-every-2-sec-until-running lc-app
 echo -n "Next >>"
 read text
 clear
@@ -368,7 +372,7 @@ echo -n "Next >>"
 read text
 clear
 echo -ne "${GREEN}Verify the pods are ready, ${NC}"
-get-pods-every-2-sec-until-running lb-web {1..3}
+get-pods-every-2-sec-until-running lc-web 3
 echo -n "Next >>"
 read text
 clear

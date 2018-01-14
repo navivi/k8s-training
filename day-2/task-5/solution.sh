@@ -150,21 +150,25 @@ apply-change(){
 get-pods-every-2-sec-until-running(){
   echo -e "${GREEN}Every 2 sec, get pods:${NC}"
 
-  local pods_running_status=$(printf 'Running %.0s' $2)
+  if [[ $2 -eq 3 ]]; then
+    pods_running_status="Running Running Running"
+  else
+    pods_running_status="Running"
+  fi
 
-  while read pods_status <<< `kubectl get po | grep $1 | awk '{print $3}'`; [[ $pods_status -ne $pods_running_status ]]; do
-    echo "\$ kubectl get po -o wide --show-labels"
-    kubectl get po -o wide --show-labels
+  while read pods_status <<< `kubectl get po | grep $1 | awk '{print $3}'`; [[ "$pods_status" != "$pods_running_status" ]]; do
+    echo "\$ kubectl get po -o wide --show-labels | grep $1 "
+    kubectl get po -o wide --show-labels | grep $1
     sleep 2
     echo "-------------------------------------"
   done  
   echo "\$ kubectl get po -o wide --show-labels"
-  kubectl get po -o wide --show-labels
+  kubectl get po -o wide --show-labels | grep $1
 }
 
 create-health-problem-in-lc-app-pod(){
   local lc_app_pod_name=$(kubectl get po | grep lc-app | awk '{print $1}')
-  echo "\$ kubectl exec -it ${lc_app_pod_name} -- rm -rf media"
+  echo -n "\$ kubectl exec -it ${lc_app_pod_name} -- rm -rf media"
   read text
   kubectl exec -it ${lc_app_pod_name} -- rm -rf media
 }
@@ -208,11 +212,13 @@ if [[ $text == "Y" ]] || [[ $text == "y" ]]; then
   done
 
   # create the replication controllers
-  for deploy in *-deploy.yml
+  for deploy in *-deploy.yaml
   do
     echo -n "Creating $deploy... "
-    kubectl create -f $deploy
+    kubectl create --save-config -f $deploy
   done
+
+  get-pods-every-2-sec-until-running lc- 5
 fi
 echo -e "${ORANGE}---------------------------------------------------------------------------------------------"
 echo -e "1. Add Liveness and Readiness Probes to Lets-Chat-APP yaml file and "
@@ -248,7 +254,7 @@ echo -n "Next >>"
 read text
 clear
 echo -ne "${GREEN}Verify the pods are ready, ${NC}"
-get-pods-every-2-sec-until-running lb-app
+get-pods-every-2-sec-until-running lc-app
 echo -n "Next >>"
 read text
 clear
@@ -269,7 +275,7 @@ echo -n "Next >>"
 read text
 clear
 echo -ne "${GREEN}Verify the pods are ready, ${NC}"
-get-pods-every-2-sec-until-running lb-web {1..3}
+get-pods-every-2-sec-until-running lc-web 3
 echo -n "Next >>"
 read text
 clear
