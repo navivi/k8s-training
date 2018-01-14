@@ -1,4 +1,4 @@
-# Task-10: PersistentVolume of External Storage 
+# Task-10: PersistentVolume and PersistentVolumeClaim
 In this task we would like to mount an External Storage to Lets-Chat-App pod so we could persist the upload files.
 We will use External NFS server.
 1. Start the NFS server on your VM (which is outside the Kubernetes Cluster)

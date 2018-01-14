@@ -18,10 +18,11 @@ In this training we will deploy and scale **let's chat** application on kubernet
 7.  [Add ConfigMap and Secrets data to a Volume](day-2/task-7/README.md)
 8.  [Volume Mount the Pod Storage into 2 Containers in it.](day-2/task-8/README.md)
 9.  [Volume Mount Directory from the Node File-System](day-2/task-9/README.md)
-10. Ingress and Nginx-Controller
-11. PersistentVolume and PersistentVolumeClaim
-12. StatefullSet
-13. Helm Charts
+10. [PersistentVolume and PersistentVolumeClaim](day-3/task-10/README.md)
+11. StorageClass - Dynamically provision PersistentVolume
+12. Ingress and Nginx-Controller
+13. StatefullSet
+14. Helm Charts
 
 ### Installations
 [Kubernetes Cluster for Training](installations/README.md)
