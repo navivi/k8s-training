@@ -18,10 +18,10 @@ helm install --name myn stable/nginx-ingress -f values.yaml
   > * The path to the WebSocket is `/socket.io/`
 4. Lets add another application to our cluster - Grafana.
   > * You can install the grafana as follow:
-      ```bash
-      cd k8s-training/charts/grafana
-      helm install --name myg stable/grafana -f values.yaml
-      ```
+```bash
+cd k8s-training/charts/grafana
+helm install --name myg stable/grafana -f values.yaml
+```
   > * Verify they it is up and running using `kubectl get po -l release=myg`
 5. Add Ingress with rule to Grafana service.  
   > * You can get the grafana service name using **kubectl get svc**
