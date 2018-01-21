@@ -1,0 +1,6 @@
+hostpath:
+  path: /home
+
+nfs:
+  server: 10.192.0.1
+  path: /home/admin/lets-chat-uploads

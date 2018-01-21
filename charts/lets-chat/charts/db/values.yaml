@@ -1,0 +1,22 @@
+# Default values for db.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+
+image: mongo
+containerPort: 27017
+username: nesia
+password: nesia
+
+persistent:
+  enabled: true
+  storageSize: 1Gi
+  storageClassName: managed-hostpath-storage
+
+global:
+  db:
+    service:
+      name: db
+      port: 27017
+
+

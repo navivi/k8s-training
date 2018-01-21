@@ -1,0 +1,61 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: lc-app # The name of your deployment
+  labels:
+    app: lc-app  # The label of your deployment
+spec:
+  replicas: 1 # Number of replicated pods
+  selector:
+    matchLabels:
+      app: lc-app # defines how the Deployment finds which Pods to manage. Should match labels defined in the Pod template
+  template:
+    metadata:
+      labels:
+        app: lc-app # The label of the pod to match selectors
+    spec:
+      containers:
+      - name: lc-app # The container name
+        image: navivi/lets-chat-app:v1 # The DockerHub image
+        ports:
+        - containerPort: 8080 # Open pod port 80 for the container
+        livenessProbe:
+          httpGet:
+            path: /login
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /login
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 1
+        env: # [OPTIONAL] add environments values 
+        - name: MONGO_HOST
+          value: lc-db
+        - name: MONGO_PORT
+          value: "27017"
+        - name: MONGO_USER
+          valueFrom:
+            secretKeyRef:
+              name: lc-db
+              key: username
+        - name: MONGO_PASS
+          valueFrom:
+            secretKeyRef:
+              name: lc-db
+              key: password
+        volumeMounts:
+        - name: settings-config
+          mountPath: /usr/src/app/config
+        - name: uploads
+          mountPath: /usr/src/app/uploads
+      volumes:
+        - name: settings-config
+          configMap:
+            name: lc-app
+        - name: uploads
+          nfs:
+            server: 10.192.0.1
+            path: /home/nesia/my-nfs

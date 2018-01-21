@@ -1,0 +1,80 @@
+{{- $relname := .Release.Name -}}
+{{- $dbhost := .Values.global.db.service.name -}}
+{{- $dbport := .Values.global.db.service.port -}}
+{{- $cachehost := .Values.global.cache.service.name -}}
+{{- $cacheport := .Values.global.cache.service.port -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "app.fullname" . }}
+  labels:
+    app: {{ template "app.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "app.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .Values.containerPort }}
+          env:
+          - name: MONGO_HOST
+            value: {{ $relname }}-{{ $dbhost }}
+          - name: MONGO_PORT
+            value: {{ $dbport | quote }}
+          - name: REDIS_HOST
+            value: {{ $relname }}-{{ $cachehost }}
+          - name: REDIS_PORT
+            value: {{ $cacheport | quote }}
+          {{- range $name, $value := .Values.env }}
+          - name: {{ $name }}
+            value: {{ $value |  quote }}
+          {{- end }}
+
+          {{- range $secret, $secretValues := .Values.envFromSecret }}
+            {{- range $name, $secretKey := $secretValues }}
+          - name: {{ $name }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $relname }}-{{ $secret }}
+                key: {{ $secretKey }}
+            {{- end }}
+          {{- end }}
+
+          livenessProbe:
+            httpGet:
+              path: /login
+              port: {{ .Values.containerPort }}
+          readinessProbe:
+            httpGet:
+              path: /login
+              port: {{ .Values.containerPort }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+          {{- if .Values.config.enabled }}
+          - name: settings-config
+            mountPath: /usr/src/app/config
+          {{- end }}
+          - name: uploads
+            mountPath: /usr/src/app/uploads
+      volumes:
+        {{- if .Values.config.enabled }}
+        - name: settings-config
+          configMap:
+            name: {{ $relname }}-app
+        {{- end }}
+        {{- if .Values.persistent.enabled }}
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-app
+        {{- end }}

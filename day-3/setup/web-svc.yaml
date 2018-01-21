@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: lc-web  # The name of your service
+spec:
+  selector:
+    app: lc-web  # defines how the Service finds which Pods to target. Should match labels defined in the Pod template
+  ports:
+  - protocol: TCP
+    port: 80 # The service port
+    targetPort: 80 # The pods port
+  type: NodePort # [OPTIONAL] If you want ClusterIP you can drop this line 

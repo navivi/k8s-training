@@ -1,0 +1,16 @@
+global:
+  host: my-k8s.att.io
+
+  app:
+    service:
+      name: app
+      port: 8080
+  cache:
+    service:
+      name: cache
+      port: 6379
+  db:
+    service:
+      name: db
+      port: 27017
+

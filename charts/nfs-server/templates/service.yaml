@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
+    - name: nfs
+      port: {{ .Values.containerNfsPort }}
+    - name: mountd
+      port: {{ .Values.containerMountdPort }}
+    - name: rpcbind
+      port: {{ .Values.containerRpcbindPort }}
+  selector:
+    app: {{ template "name" . }}
+    release: {{ .Release.Name }}

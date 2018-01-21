@@ -5,6 +5,26 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m' 
 NC='\033[0m' # No Color
 
+clean(){
+  local lc_config=$(kubectl get cm | grep lc-config  | awk '{print $1}') >> /dev/null
+  if [[ -n ${lc_config} ]]; then
+    echo "\$ kubectl delete cm ${lc_config}"
+    kubectl delete cm ${lc_config}
+  fi
+
+  local lc_secret=$(kubectl get secret | grep lc-db | awk '{print $1}') >> /dev/null
+  if [[ -n ${lc_secret} ]]; then
+    echo "\$ kubectl delete secret ${lc_secret}"
+    kubectl delete secret ${lc_secret}
+  fi
+
+}
+
+run-previous-task-solution(){
+  /bin/bash ../task-5/solution.sh
+}
+
+
 write-db-secret-yaml(){
   cat > db-secret.yaml <<EOF
 apiVersion: v1

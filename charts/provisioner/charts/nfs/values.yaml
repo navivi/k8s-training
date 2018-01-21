@@ -1,0 +1,11 @@
+# Default values for nfs.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+image:
+  repository: navivi/k8s-nfs-provisioner
+  tag: v1
+  pullPolicy: IfNotPresent
+
+server: 10.192.0.1
+path: /home/nesia/my-nfs

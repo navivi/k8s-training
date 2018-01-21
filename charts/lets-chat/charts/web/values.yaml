@@ -1,0 +1,50 @@
+# Default values for web.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 3
+
+# The values of the web-container
+image: navivi/lets-chat-web:v1
+containerPort: 80
+env:
+  CODE_ENABLED: false
+resources: {}
+# If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+#  limits:
+#    cpu: 100m
+#    memory: 128Mi
+#  requests:
+#    cpu: 100m
+#    memory: 128Mi
+
+logrotate:
+  enabled: true
+# The values of the logrotate-container
+  image: blacklabelops/logrotate
+  env:
+    LOGROTATE_SIZE: 100k 
+
+service:
+  name: web
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+
+  annotations:
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  tls:
+    # Secrets must be manually created in the namespace.
+    # - secretName: chart-example-tls
+    #   hosts:
+    #     - chart-example.local
+
+global:
+  app:
+    service:
+      name: app
+      port: 8080
+

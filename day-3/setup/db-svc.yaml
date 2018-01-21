@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: lc-db  # The name of your service
+spec:
+  selector:
+    app: lc-db  # defines how the Service finds which Pods to target. Should match labels defined in the Pod template
+  ports:
+  - protocol: TCP
+    port: 27017 # The service port
+    targetPort: 27017 # The pods port

@@ -1,0 +1,6 @@
+env: production
+files:
+  enable: true
+  provider: local
+  local:
+    dir: uploads

@@ -1,0 +1,29 @@
+{{- if .Values.ingress.enabled -}}
+{{- $serviceName := .Values.global.app.service.name -}}
+{{- $servicePort := .Values.global.app.service.port -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "app.fullname" . }}
+  labels:
+    app: {{ template "app.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    nginx.org/websocket-services: "{{ .Release.Name }}-{{ $serviceName }}"
+
+spec:
+  rules:
+    - host: {{ .Values.global.host }}
+      http:
+        paths:
+          - path: /socket.io/
+            backend:
+              serviceName: {{ .Release.Name }}-{{ $serviceName }}
+              servicePort: {{ $servicePort }}
+  {{- if .Values.ingress.tls }}
+  tls:
+{{ toYaml .Values.ingress.tls | indent 4 }}
+  {{- end -}}
+{{- end -}}

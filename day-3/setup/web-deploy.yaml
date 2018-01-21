@@ -1,0 +1,44 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: lc-web # The name of your deployment
+  labels:
+    app: lc-web  # The label of your deployment
+spec:
+  replicas: 3 # Number of replicated pods
+  selector:
+    matchLabels:
+      app: lc-web # defines how the Deployment finds which Pods to manage. Should match labels defined in the Pod template
+  template:
+    metadata:
+      labels:
+        app: lc-web # The label of the pod to match selectors
+    spec:
+      containers:
+      - name: lc-web # The container name
+        image: navivi/lets-chat-web:v1 # The DockerHub image
+        ports:
+        - containerPort: 80 # Open pod port 80 for the container
+        livenessProbe:
+          httpGet:
+            path: /media/favicon.ico
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /media/favicon.ico
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 1
+        env: # [OPTIONAL] add environments values 
+        - name: CODE_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: lc-config
+              key: code.enabled
+        - name: APP_HOST
+          value: lc-app
+        - name: APP_PORT
+          value: "8080"
+

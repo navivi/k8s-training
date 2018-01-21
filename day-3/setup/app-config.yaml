@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lc-app
+data:
+  settings.yml: |
+    env: production
+    files:
+      enable: true
+      provider: local
+      local:
+        dir: uploads

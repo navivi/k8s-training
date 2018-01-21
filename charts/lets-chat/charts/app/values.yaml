@@ -1,0 +1,59 @@
+# Default values for app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 3
+
+image: navivi/lets-chat-app:v2
+containerPort: 8080
+env:
+  LCB_XMPP_ENABLE: false
+envFromSecret:
+  # The name of the secret {{ .Release.Name }}-db
+  db:
+    # The Variable name in the pod : The key name in the secret
+    MONGO_USER: username
+    MONGO_PASS: password 
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+persistent:
+  enabled: true
+  storageSize: 1Gi
+  storageClassName: managed-nfs-storage
+
+config:
+  # If enabled will create configMap with keys and values from files located in config/ dir
+  enabled: true
+
+ingress:
+  enabled: true
+
+  tls:
+    # Secrets must be manually created in the namespace.
+    # - secretName: chart-example-tls
+    #   hosts:
+    #     - chart-example.local
+
+    
+global:
+  app:
+    service:
+      name: app
+      port: 8080
+  cache:
+    service:
+      name: cache
+      port: 6379
+  db:
+    service:
+      name: db
+      port: 27017

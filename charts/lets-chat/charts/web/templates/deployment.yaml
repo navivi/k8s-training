@@ -1,0 +1,70 @@
+{{- $apphost := .Values.global.app.service.name -}}
+{{- $appport := .Values.global.app.service.port -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "web.fullname" . }}
+  labels:
+    app: {{ template "web.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "web.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .Values.containerPort }}
+          env:
+          {{- range $name, $value := .Values.env }}
+          - name: {{ $name }}
+            value: {{ $value | quote }}
+          {{- end }}
+          - name: APP_HOST
+            value: {{ .Release.Name }}-{{ $apphost }}
+          - name: APP_PORT
+            value: {{ $appport | quote }}
+
+          livenessProbe:
+            httpGet:
+              path: /media/favicon.ico
+              port: {{ .Values.containerPort }}
+          readinessProbe:
+            httpGet:
+              path: /media/favicon.ico
+              port: {{ .Values.containerPort }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+
+     {{- if .Values.logrotate.enabled }}   
+          volumeMounts:
+          - name: web-log
+            mountPath: /var/log/nginx/letschat
+
+        - name: logrotate
+          image: "{{ .Values.logrotate.image }}"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: LOGS_DIRECTORIES
+            value: /var/logs/lets-chat
+          {{- range $name, $value := .Values.logrotate.env }}
+          - name: {{ $name }}
+            value: {{ $value | quote }}
+          {{- end }}
+          volumeMounts:
+          - name: web-log
+            mountPath: /var/logs/lets-chat
+      volumes:
+      - name: web-log
+        emptyDir: {}
+     {{- end }}
+
+   
