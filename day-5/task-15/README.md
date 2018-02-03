@@ -4,10 +4,10 @@ In this task we would like to expose Lets-Chat application on port 80 - so we co
 
 1. First we should install nginx-controller for ingress. 
   > * You can install the nginx-controller as follow:
-      ```bash
-      cd k8s-training/charts/nginx-ingress-controller
-      helm install --name myn stable/nginx-ingress -f values.yaml
-      ```
+```bash
+cd k8s-training/charts/nginx-ingress-controller
+helm install --name myn stable/nginx-ingress -f values.yaml
+```
 2. Add Ingress with rule to Lets-Chat-Web service using **kubectl create -f web-ingress.yaml**
   > * You can use bellow [Specifications Examples](#specifications-examples) to define web-ingress.yaml
   > * The host to kubernetes cluster is **my-k8s.att.io**. You may change it in /etc/hosts of your VM
@@ -18,10 +18,10 @@ In this task we would like to expose Lets-Chat application on port 80 - so we co
   > * The path to the WebSocket is `/socket.io/`
 4. Lets add another application to our cluster - Grafana.
   > * You can install the grafana as follow:
-      ```bash
-      cd k8s-training/charts/grafana
-      helm install --name myg stable/grafana -f values.yaml
-      ```
+```bash
+cd k8s-training/charts/grafana
+helm install --name myg stable/grafana -f values.yaml
+```
   > * Verify they it is up and running using `kubectl get po -l release=myg`
 5. Add Ingress with rule to Grafana service.  
   > * You can get the grafana service name using **kubectl get svc**

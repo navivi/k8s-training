@@ -18,23 +18,23 @@ The Lets-Chat-Web will be a simple pod - with one container and no ConfigMap
   > * Verify you can access the application on http://my-k8s.att.io
 5. Move the environment varaibles values from templates/deployment.yaml to values.yaml
   > * You can add to values.yaml
-      ```yaml
-      env: 
-        CODE_ENABLED: false
-        APP_HOST: lc-app
-        APP_PORT: 8080
-      ```
+```yaml
+env: 
+  CODE_ENABLED: false
+  APP_HOST: lc-app
+  APP_PORT: 8080
+```
       And then in templates/deployment.yaml change the value to {{ .Values.env.CODE_ENABLED | quote }}
   > * Update using `helm upgrade release-name chart-path`
 6. Now, lets improve the templates/deploment.yaml with loop over the Environment Variables - so we could get the name and the value from values.yaml
   > * You can use helm range for loop:
-      ```yaml
-      env:
-      {{- range $name, $value := .Values.env }}
-      - name: {{ $name }}
-        value: {{ $value | quote }}
-      {{- end }}
-      ```
+```yaml
+env:
+{{- range $name, $value := .Values.env }}
+- name: {{ $name }}
+  value: {{ $value | quote }}
+{{- end }}
+```
   > * Update using `helm upgrade release-name chart-path`
 
  
