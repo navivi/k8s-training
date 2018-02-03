@@ -65,8 +65,11 @@ spec:
           - name: settings-config
             mountPath: /usr/src/app/config
           {{- end }}
+
+          {{- if .Values.persistent.enabled }}
           - name: uploads
             mountPath: /usr/src/app/uploads
+          {{- end }}
       volumes:
         {{- if .Values.config.enabled }}
         - name: settings-config

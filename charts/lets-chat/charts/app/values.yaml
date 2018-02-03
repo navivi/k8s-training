@@ -28,7 +28,11 @@ resources: {}
 persistent:
   enabled: true
   storageSize: 1Gi
-  storageClassName: managed-nfs-storage
+  storageClassName: nfs-storage
+  nfs:
+    # FIXME: use the right IP
+    server: 10.192.0.1
+    path: /home/nesia/my-nfs
 
 config:
   # If enabled will create configMap with keys and values from files located in config/ dir

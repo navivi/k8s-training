@@ -14,3 +14,13 @@ global:
       name: db
       port: 27017
 
+app:
+  persistent:
+    enabled: false
+    nfs:
+      # FIXME: use the right IP
+      server: 10.192.0.1
+      path: /home/nesia/my-nfs
+db:
+  persistent:
+    enabled: false

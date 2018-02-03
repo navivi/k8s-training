@@ -1,0 +1,22 @@
+{{- if .Values.persistent.enabled }}
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-app
+  labels:
+    app: {{ template "app.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  storageClassName: {{ .Values.persistent.storageClassName }}
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    # FIXME: use the right IP
+    server: {{ .Values.persistent.nfs.server }}
+    path: {{ .Values.persistent.nfs.path | quote }}
+
+{{- end }}
