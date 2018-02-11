@@ -26,7 +26,9 @@ In your host run:
 `git clone https://github.com/navivi/k8s-training`
 
 ## 3. Vagrant Up
-Inside the repository working-dir (cloned in previous step),
+First run: `vagrant plugin install vagrant-disksize`
+
+And then, inside the repository working-dir (cloned in previous step),
 
 run:
 `vagrant up`
