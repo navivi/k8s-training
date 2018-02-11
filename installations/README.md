@@ -32,9 +32,11 @@ Inside the repository working-dir (cloned in previous step) run:
 Make sure you get running VM in your VirtualBox with the name: "k8s_training"
 
 ## 4. Change the VM Network Adapter to Bridged
+* Shut-Down the VM in Virtualbox
 * Right-Click the VM in the VirtualBox and Click 'Settings'
 * Choose the 'Network' Tab
 * In the 'Attached to' combobox - Choose 'Bridged Adapter' and then click 'OK'
+* Start the VM again in Virualbox
 
 ## 5. Login to VM Desktop
 * Double Click the VM in the VirtualBox (or click 'Show')
