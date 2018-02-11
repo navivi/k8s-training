@@ -110,7 +110,7 @@ EXTRA_PORTS="${EXTRA_PORTS:-}"
 LOCAL_KUBECTL_VERSION=${LOCAL_KUBECTL_VERSION:-}
 KUBECTL_DIR="${KUBECTL_DIR:-${HOME}/.kubeadm-dind-cluster}"
 DASHBOARD_URL="${DASHBOARD_URL:-https://rawgit.com/kubernetes/dashboard/bfab10151f012d1acc5dfb1979f3172e2400aa3c/src/deploy/kubernetes-dashboard.yaml}"
-SKIP_SNAPSHOT="${SKIP_SNAPSHOT:-}"
+SKIP_SNAPSHOT="${SKIP_SNAPSHOT:-true}"
 E2E_REPORT_DIR="${E2E_REPORT_DIR:-}"
 DIND_NO_PARALLEL_E2E="${DIND_NO_PARALLEL_E2E:-}"
 
@@ -1008,6 +1008,15 @@ function dind::up {
   fi
   dind::init-helm
   dind::deploy-nginx-ingress
+  
+  local dashboard_port=$(kubectl get svc -l app=kubernetes-dashboard -n kube-system | grep NodePort |awk '{print $5}' | cut -d'/' -f1 | cut -d':' -f2)
+
+  dind::step "Master: 10.192.0.2"
+  dind::step "Node-1: 10.192.0.3"
+  dind::step "Node-2: 10.192.0.4"
+  dind::step "Node-3: 10.192.0.5"
+  dind::step "------------------"
+  dind::step "Access dashboard at:" "http://k8s-training:${dashboard_port}"
  
 }
 
