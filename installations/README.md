@@ -26,7 +26,11 @@ In your host run:
 `git clone https://github.com/navivi/k8s-training`
 
 ## 3. Vagrant Up
-Inside the repository working-dir (cloned in previous step) run:
+Inside the repository working-dir (cloned in previous step),
+First create directory named **mnt**, i.e. run:
+`mkdir mnt`
+
+and then run:
 `vagrant up`
 
 Make sure you get running VM in your VirtualBox with the name: "k8s_training"
