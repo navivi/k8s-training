@@ -27,7 +27,8 @@ In your host run:
 
 ## 3. Vagrant Up
 Inside the repository working-dir (cloned in previous step),
-First create directory named **mnt**, i.e. run:
+First create directory named **mnt**, (the directory should be empty - before first vagrant up)
+i.e. run:
 `mkdir mnt`
 
 and then run:
