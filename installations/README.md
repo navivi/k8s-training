@@ -27,11 +27,8 @@ In your host run:
 
 ## 3. Vagrant Up
 Inside the repository working-dir (cloned in previous step),
-First create directory named **mnt**, (the directory should be empty - before first vagrant up)
-i.e. run:
-`mkdir mnt`
 
-and then run:
+run:
 `vagrant up`
 
 Make sure you get running VM in your VirtualBox with the name: "k8s_training"
