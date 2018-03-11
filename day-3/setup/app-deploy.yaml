@@ -49,13 +49,7 @@ spec:
         volumeMounts:
         - name: settings-config
           mountPath: /usr/src/app/config
-        - name: uploads
-          mountPath: /usr/src/app/uploads
       volumes:
         - name: settings-config
           configMap:
             name: lc-app
-        - name: uploads
-          nfs:
-            server: 10.192.0.1
-            path: /home/nesia/my-nfs
