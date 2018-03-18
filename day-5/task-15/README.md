@@ -2,28 +2,22 @@
 
 In this task we would like to expose Lets-Chat application on port 80 - so we could access the application on http://my-k8s.att.io
 
-1. First we should install nginx-controller for ingress. 
-  > * You can install the nginx-controller as follow:
-```bash
-cd k8s-training/charts/nginx-ingress-controller
-helm install --name myn stable/nginx-ingress -f values.yaml
-```
-2. Add Ingress with rule to Lets-Chat-Web service using **kubectl create -f web-ingress.yaml**
+1. Add Ingress with rule to Lets-Chat-Web service using **kubectl create -f web-ingress.yaml**
   > * You can use bellow [Specifications Examples](#specifications-examples) to define web-ingress.yaml
   > * The host to kubernetes cluster is **my-k8s.att.io**. You may change it in /etc/hosts of your VM
   > * Verify you can access the application on http://my-k8s.att.io
   > * What happens when you login and try to add new room? Check the browser DevTools (F12)
-3. To load balance a WebSocket application with NGINX Ingress controllers, you need to add the nginx.org/websocket-services annotation to your Ingress resource definition. But since the client is connected with WebSocket seesion to the Lets-Chat-App service (and not the Lets-Chat-Web) - You should create another Ingress with rule to Lets-Chat-App
+2. To load balance a WebSocket application with NGINX Ingress controllers, you need to add the nginx.org/websocket-services annotation to your Ingress resource definition. But since the client is connected with WebSocket seesion to the Lets-Chat-App service (and not the Lets-Chat-Web) - You should create another Ingress with rule to Lets-Chat-App
   > * You should add this Ingress the `nginx.org/websocket-services` annotation
   > * The path to the WebSocket is `/socket.io/`
-4. Lets add another application to our cluster - Grafana.
+3. Lets add another application to our cluster - Grafana.
   > * You can install the grafana as follow:
 ```bash
 cd k8s-training/charts/grafana
 helm install --name myg stable/grafana -f values.yaml
 ```
   > * Verify they it is up and running using `kubectl get po -l release=myg`
-5. Add Ingress with rule to Grafana service.  
+4. Add Ingress with rule to Grafana service.  
   > * You can get the grafana service name using **kubectl get svc**
   > * The path to grafana should be **/grafana**
   > * Verify you can access the application on http://my-k8s.att.io/grafana
