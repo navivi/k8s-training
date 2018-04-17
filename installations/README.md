@@ -62,7 +62,8 @@ Make sure you get running VM in your VirtualBox with the name: "k8s_training"
 
 # Setup In Ubuntu VM
 ## Install docker
-```bash sudo apt-get update
+```bash 
+sudo apt-get update
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
@@ -76,7 +77,8 @@ sudo usermod -aG docker $USER
 Need to relogin
 
 ### Install kubectl
-```bash curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+```bash 
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 
@@ -84,7 +86,8 @@ echo "source <(kubectl completion bash)" >> ~/.bashrc
 ```
 
 ## Install helm
-```bash curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh
+```bash 
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh
 chmod 700 get_helm.sh
 ./get_helm.sh
 ```
