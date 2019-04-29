@@ -37,7 +37,7 @@ spec:
         httpHeaders:
         - name: X-Custom-Header
           value: Awesome
-      initialDelaySeconds: 30
+      initialDelaySeconds: 3
       periodSeconds: 3
     livenessProbe:
       httpGet:
@@ -46,7 +46,7 @@ spec:
         httpHeaders:
         - name: X-Custom-Header
           value: Awesome
-      initialDelaySeconds: 3
+      initialDelaySeconds: 30
       periodSeconds: 3
 ```
 #### exec-probes.yaml
