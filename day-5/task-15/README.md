@@ -67,7 +67,7 @@ kind: Ingress
 metadata:
   name: my-ingress
   annotations:
-    ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
     - host: my-host.com
