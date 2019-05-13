@@ -9,7 +9,7 @@ The Lets-Chat-Web will be a simple pod - with one container and no ConfigMap
   > * Update the values.yaml with the image repository and tag of Lets-Chat-Web
   > * Enable the ingress and update the hosts to **my-k8s.att.io**
   > * Update the Probes in templates/deployment.yaml. the httpGet.path shoud be /media/favicon.ico
-  > * Add Environment variables to templates/deployment.yaml: **CODE_ENABLED="true"**, **APP_HOST=app-service-name**, **APP_PORT="app-service-port"**
+  > * Add Environment variables to templates/deployment.yaml: **CODE_ENABLED="false"**, **APP_HOST=app-service-name**, **APP_PORT="app-service-port"**
 3. Before Install - verify the generated yaml files are valid using `helm install --name release-name --dry-run --debug chart-path`. Where release-name is any name you choose (For example: 'lc'). And chart-path is the path to the created charts direcory.
 4. Install Lets-Chat-Web using helm
   > * You can install it using `helm install --name release-name chart-path`. 
