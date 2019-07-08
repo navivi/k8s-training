@@ -39,8 +39,6 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: nginx-deployment # The name of your deployment
-  labels:
-    app: nginx  # The label of your deployment
 spec:
   replicas: 1 # Number of replicated pods
   selector:
