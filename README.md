@@ -26,10 +26,10 @@ In this training we will deploy and scale **let's chat** application on kubernet
 
 
 ### Installations
-[Kubernetes Cluster for Training](installations/README.md)
+
 ##### Requirements
-* ![Vagrant](https://www.vagrantup.com/downloads)
-* ![VirtualBox](https://www.virtualbox.org/)
+* [Vagrant](https://www.vagrantup.com/downloads)
+* [VirtualBox](https://www.virtualbox.org/)
 
 Run
 
