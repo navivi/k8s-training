@@ -1,7 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $serviceName := .Values.global.app.service.name -}}
 {{- $servicePort := .Values.global.app.service.port -}}
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ template "app.fullname" . }}
@@ -19,9 +19,12 @@ spec:
       http:
         paths:
           - path: /socket.io/
+            pathType: Prefix
             backend:
-              serviceName: {{ .Release.Name }}-{{ $serviceName }}
-              servicePort: {{ $servicePort }}
+              service:
+                name: {{ .Release.Name }}-{{ $serviceName }}
+                port:
+                  number: {{ $servicePort }}
   {{- if .Values.ingress.tls }}
   tls:
 {{ toYaml .Values.ingress.tls | indent 4 }}

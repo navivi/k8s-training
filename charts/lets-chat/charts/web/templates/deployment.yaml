@@ -1,6 +1,6 @@
 {{- $apphost := .Values.global.app.service.name -}}
 {{- $appport := .Values.global.app.service.port -}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "web.fullname" . }}
