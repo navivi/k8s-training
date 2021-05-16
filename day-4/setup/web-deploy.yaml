@@ -19,10 +19,26 @@ spec:
         image: navivi/lets-chat-web:v1 # The DockerHub image
         ports:
         - containerPort: 80 # Open pod port 80 for the container
+        livenessProbe:
+          httpGet:
+            path: /media/favicon.ico
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /media/favicon.ico
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 1
         env: # [OPTIONAL] add environments values 
         - name: CODE_ENABLED
-          value: "false"
+          valueFrom:
+            configMapKeyRef:
+              name: lc-config
+              key: code.enabled
         - name: APP_HOST
           value: lc-app
         - name: APP_PORT
           value: "8080"
+

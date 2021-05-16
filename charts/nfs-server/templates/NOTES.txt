@@ -1,8 +1,0 @@
-NFS Server is installed!!
-export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "fullname" . }} -o jsonpath='{.spec.clusterIP}')
-echo http://$SERVICE_IP
-You may use it as Volume: 
-  nfs:
-    server: $SERVICE_IP
-    path: "/"
-

@@ -3,7 +3,7 @@
 {{- $dbport := .Values.global.db.service.port -}}
 {{- $cachehost := .Values.global.cache.service.name -}}
 {{- $cacheport := .Values.global.cache.service.port -}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "app.fullname" . }}

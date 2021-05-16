@@ -1,5 +1,5 @@
 global:
-  host: my-k8s.att.io
+  host: k8s-training.com
 
   app:
     service:
@@ -18,9 +18,8 @@ app:
   persistent:
     enabled: false
     nfs:
-      # FIXME: use the right IP
-      server: 10.192.0.1
-      path: /home/nesia/my-nfs
+      server: 172.17.0.1
+      path: /mnt/nfs_share
 db:
   persistent:
     enabled: false

@@ -1,5 +1,5 @@
 # Task-1: Deploy and Explore Lets-Chat-Web
-1. Create a Deployment of Lets-Chat-Web microservice using **kubectl run** command
+1. Create a Pod of Lets-Chat-Web microservice using **kubectl run** command
   > * You can get the command options using ` kubectl run --help ` or use bellow [kubectl Cheat Sheet](#kubectl-cheat-sheet)
   > * The image of Lets-Chat-Web is **navivi/lets-chat-web:v1**
   > * The lets-chat-web server is listening on port **80**
@@ -13,8 +13,8 @@
 
 ### kubectl Cheat Sheet
   ```bash
-# Start a single instance of my-app and let the container expose port 5701 .
-kubectl run my-app --image=my-app-image --port=5701
+# Start a single pod instance of my-app 
+kubectl run my-app --image=my-app-image 
 
 # List all pods
 kubectl get po
@@ -36,8 +36,5 @@ kubectl port-forward mypod 8888:5000
 
 # Delete a pod
 kubectl delete po my-pod-name
-
-# Delete deployment and all its pods
-kubectl delete deploy my-deployment-name
 
 ```

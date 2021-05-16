@@ -1,10 +1,11 @@
-# Task-2: Expose and Scale Lets-Chat-Web
+# Task-2: Deploy, Expose and Scale Lets-Chat-Web
+1. Create a Deployment of Lets-Chat-Web microservice using **kubectl create deploy** command
+  > * You can get the command options using ` kubectl create --help ` or use bellow [kubectl Cheat Sheet](#kubectl-cheat-sheet)
 1. Create a Service to Lets-Chat-Web microservice using **kubectl expose deploy** command
-  > * You can get the command options using ` kubectl expose --help ` or use bellow [kubectl Cheat Sheet](#kubectl-cheat-sheet)
-  > * Get the Service Cluster-IP using `kubectl get svc` command. Then access one of the nodes in the cluster using `kube-ssh kube-node-1`, and there curl service-cluster-ip:service-port.
+  > * Get the Service Cluster-IP using `kubectl get svc` command. Then access one of the nodes in the cluster using `docker exec -it kind-worker bash`, and there curl service-cluster-ip:service-port.
 2. Change the Service type from ClusterIP to NodePort to make it accessible from outside the cluster.
   > * Use `kubectl edit svc my-service-name` to update the service specification with **type: NodePort**
-  > * Get the Service Node port using `kubectl get svc` command. Then open the browser and acceess Lets-Chat-Web UI using kube-node-1:node-port.  Make sure you can access the UI also from the other 2 nodes.
+  > * Get the Service Node port using `kubectl get svc` command. Then open the browser and acceess Lets-Chat-Web UI using kind-worker:node-port.  Make sure you can access the UI also from the other 2 nodes.
 3. Scale the Lets-Chat-Web pods to 4 instances using  **kubectl scale** command
   > * Explore the pods, using `kubectl get po -o wide`, to see which Nodes the new pods were scheduled to.
   > * Open the browser and acceess Lets-Chat-Web UI using each node in the cluster and see which pod responds.
@@ -12,6 +13,12 @@
 
 ### kubectl Cheat Sheet
   ```bash
+# Create a deployment with single pod
+kubectl create deploy my-app --image nginx
+
+# List all deployments
+kubectl get deploy
+
 # Create a service for my-app deployment, on port 80 and connects to the containers on port 8000.
 kubectl expose deployment my-app --port=80 --target-port=8000
 
@@ -26,6 +33,9 @@ kubectl get po --show-labels
 
 # Scale a deployment named 'foo' to 3.
 kubectl scale deploy my-app --replicas=3
+
+# Delete deployment and all its pods
+kubectl delete deploy my-deployment-name
 
 # Delete a service
 kubectl delete svc my-svc-name

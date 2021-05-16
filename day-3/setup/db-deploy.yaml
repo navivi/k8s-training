@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: lc-db # The name of your deployment
@@ -19,30 +19,3 @@ spec:
         image: mongo # The DockerHub image
         ports:
         - containerPort: 27017 # Open pod port 80 for the container
-        livenessProbe:
-          exec:
-            command:
-            - mongo
-            - --eval
-            - "db.adminCommand('ping')"
-          initialDelaySeconds: 30
-          timeoutSeconds: 5
-        readinessProbe:
-          exec:
-            command:
-            - mongo
-            - --eval
-            - "db.adminCommand('ping')"
-          initialDelaySeconds: 5
-          timeoutSeconds: 1
-        env: # [OPTIONAL] add environments values 
-        - name: MONGO_INITDB_ROOT_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: lc-db
-              key: username
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: lc-db
-              key: password
