@@ -38,11 +38,18 @@ vagrant init navivi/k8s-training --box-version 1
 vagrant up
 ```
 
-Show the desktop VM from VirtualBox, Login Credentials are:
-Username: vagrant
-Password: vagrant
+Show the desktop VM from VirtualBox, 
+
+Login Credentials are:
+
+- Username: vagrant
+
+- Password: vagrant
+
 ![image](https://user-images.githubusercontent.com/34754379/118403830-f81e5400-b678-11eb-949a-b2b3f03db72c.png)
+
 Open the Terminal, by clicking the 'Show Applications' at the left bottom and search 'Terminal' 
+
 ![image](https://user-images.githubusercontent.com/34754379/118403954-90b4d400-b679-11eb-97ec-a53b8f7f33a8.png)
 
 In the terminal, run:
