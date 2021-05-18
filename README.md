@@ -1,9 +1,16 @@
+# Using Kubernetes Training
+In this course, you'll learn: 
+- The origin, architecture, primary components, and building blocks of Kubernetes
+- How to set up and access a Kubernetes cluster using Kind
+- Ways to run applications on the deployed Kubernetes environment and access the deployed applications
+
+
+## K8s Training with Lets-Chat
+In this training we will deploy and scale **let's chat** application on kubernetes cluster. Let's Chat is a persistent messaging application that runs on Node.js and MongoDB with Nginx at the front.
+
 ![Let's Chat](http://i.imgur.com/0a3l5VF.png)
 
 ![Screenshot](http://i.imgur.com/C4uMD67.png)
-A self-hosted chat app for small teams
-# K8s Training with Lets-Chat
-In this training we will deploy and scale **let's chat** application on kubernetes cluster. Let's Chat is a persistent messaging application that runs on Node.js and MongoDB with Nginx at the front.
 
 ### Let's Chat Architecture
 ![image](https://user-images.githubusercontent.com/34754379/118403211-0e76e080-b676-11eb-88ab-1fa453f8cee8.png)
