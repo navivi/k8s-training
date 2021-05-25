@@ -89,7 +89,7 @@ get-pods-every-2-sec-until-running(){
     pods_running_status="Running"
   fi
 
-  while read pods_status <<< `kubectl get po | grep $1 | awk '{print $3}'`; [[ "$pods_status" != "$pods_running_status" ]]; do
+  while read pods_status <<< `kubectl get po | grep $1 | awk '{print $3}' | sed ':a;N;$!ba;s/\n/ /g'`; [[ "$pods_status" != "$pods_running_status" ]]; do
     echo "\$ kubectl get po -o wide --show-labels | grep $1 "
     kubectl get po -o wide --show-labels | grep $1
     sleep 2
