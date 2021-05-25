@@ -95,7 +95,7 @@ create-web-svc(){
 
 get-pods-every-2-sec-until-running(){
   echo -e "${GREEN}Every 2 sec, get pods:${NC}"
-  while read pods_status <<< `kubectl get po | grep -v NAME | awk '{print $3}'`; [[ $pods_status != "Running Running Running" ]]; do
+  while read pods_status <<< `kubectl get po | grep -v NAME | awk '{print $3}' | sed ':a;N;$!ba;s/\n/ /g'`; [[ $pods_status != "Running Running Running" ]]; do
     echo "\$ kubectl get po -o wide --show-labels"
     kubectl get po -o wide --show-labels
     sleep 2
