@@ -1,5 +1,7 @@
 # Task-11: Expose Lets-Chat on FQDN:80 Using Ingress and Nginx-Controller
 
+***First - Install Ingress Controller on the kind cluster by following the instructions here: [Setting Up An Ingress Controller](https://kind.sigs.k8s.io/docs/user/ingress/#ingress-nginx)***
+
 In this task we would like to expose Lets-Chat application on port 80 - so we could access the application on http://k8s-training.com
 
 1. Add Ingress with rule to Lets-Chat-Web service using **kubectl create -f web-ingress.yaml**
