@@ -84,32 +84,37 @@ get-pods-every-2-sec-until-running(){
   echo -e "${GREEN}Every 2 sec, get pods:${NC}"
 
   if [[ $2 -eq 3 ]]; then
-    pods_running_status="Running Running Running"
+     while read pods_status <<< `kubectl get po | grep $1 | awk '{print $3}' | sed -e ':a' -e 'N;$!ba' -e 's/\n/ /g'`; [[ "$pods_status" != "Running Running Running" ]]; do
+        echo "\$ kubectl get po -o wide --show-labels | grep $1 "
+        kubectl get po -o wide --show-labels | grep $1
+        sleep 2
+        echo "-------------------------------------"
+      done  
   else
-    pods_running_status="Running"
+     while read pods_status <<< `kubectl get po | grep $1 | awk '{print $3}'`; [[ "$pods_status" != "Running" ]]; do
+        echo "\$ kubectl get po -o wide --show-labels | grep $1 "
+        kubectl get po -o wide --show-labels | grep $1
+        sleep 2
+        echo "-------------------------------------"
+      done  
   fi
 
-  while read pods_status <<< `kubectl get po | grep $1 | awk '{print $3}' | sed ':a;N;$!ba;s/\n/ /g'`; [[ "$pods_status" != "$pods_running_status" ]]; do
-    echo "\$ kubectl get po -o wide --show-labels | grep $1 "
-    kubectl get po -o wide --show-labels | grep $1
-    sleep 2
-    echo "-------------------------------------"
-  done  
+ 
   echo "\$ kubectl get po -o wide --show-labels"
   kubectl get po -o wide --show-labels | grep $1
 }
 
-get-web-svc-node-port(){
-  WEB_SVC_PORT=$(kubectl get svc | grep lc-web |awk '{print $5}')
-  read web_svc_cluster_port web_node_port <<< ${WEB_SVC_PORT//[:]/ }
-  cut -d'/' -f1 <<< $web_node_port
-}
-
-curl-each-node(){
-  web_node_port=$(get-web-svc-node-port)
-  echo -n "\$ curl --write-out %{http_code} --silent --output /dev/null kind-worker:$web_node_port/login"
+curl-service(){
+  while read web_ext_ip <<< `kubectl get svc | grep lc-web |awk '{print $4}'`; [[ $web_ext_ip == "<none>" ||  $web_ext_ip == "<pending>" ]]; do
+    echo "Pending external IP"
+    sleep 2
+    echo "-------------------------------------"
+  done  
+  echo "got external ip: $web_ext_ip"
+  
+  echo -n "\$ curl --write-out %{http_code} --silent --output /dev/null $web_ext_ip/media/favicon.ico"
   read text
-  RESULT=$(curl --write-out %{http_code} --silent --output /dev/null kind-worker:$web_node_port/login)
+  RESULT=$(curl --write-out %{http_code} --silent --output /dev/null $web_ext_ip/media/favicon.ico)
   echo $RESULT
   echo "---------------------------------------------------"
 }
@@ -146,5 +151,5 @@ get-pods-every-2-sec-until-running lc-web 3
 echo -n "Next >>"
 read text
 clear
-echo -e "${GREEN}Going to curl the Service on each node:${NC}"
-curl-each-node
+echo -e "${GREEN}Going to curl the Service:${NC}"
+curl-service
