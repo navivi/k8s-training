@@ -9,4 +9,4 @@ spec:
   - protocol: TCP
     port: 80 # The service port
     targetPort: 80 # The pods port
-  type: NodePort # [OPTIONAL] If you want ClusterIP you can drop this line 
+  type: LoadBalancer # [OPTIONAL] If you want ClusterIP you can drop this line 
