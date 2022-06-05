@@ -78,7 +78,7 @@ spec:
   - protocol: TCP
     port: 80 # The service port
     targetPort: 80 # The pods port
-  type: NodePort # [OPTIONAL] If you want ClusterIP you can drop this line 
+  type: LoadBalancer # [OPTIONAL] If you want ClusterIP you can drop this line 
 EOF
 	cat web-svc.yaml
 }
@@ -95,7 +95,7 @@ create-web-svc(){
 
 get-pods-every-2-sec-until-running(){
   echo -e "${GREEN}Every 2 sec, get pods:${NC}"
-  while read pods_status <<< `kubectl get po | grep -v NAME | awk '{print $3}' | sed ':a;N;$!ba;s/\n/ /g'`; [[ $pods_status != "Running Running Running" ]]; do
+  while read pods_status <<< `kubectl get po | grep lc-web- | awk '{print $3}' | sed -e ':a' -e 'N;$!ba' -e 's/\n/ /g'`; [[ $pods_status != "Running Running Running" ]]; do
     echo "\$ kubectl get po -o wide --show-labels"
     kubectl get po -o wide --show-labels
     sleep 2
@@ -105,17 +105,17 @@ get-pods-every-2-sec-until-running(){
   kubectl get po -o wide --show-labels
 }
 
-get-web-svc-node-port(){
-  WEB_SVC_PORT=$(kubectl get svc | grep lc-web |awk '{print $5}')
-  read web_svc_cluster_port web_node_port <<< ${WEB_SVC_PORT//[:]/ }
-  cut -d'/' -f1 <<< $web_node_port
-}
-
-curl-each-node(){
-  web_node_port=$(get-web-svc-node-port)
-  echo -n "\$ curl --write-out %{http_code} --silent --output /dev/null kind-worker:$web_node_port/media/favicon.ico"
+curl-service(){
+  while read web_ext_ip <<< `kubectl get svc | grep lc-web |awk '{print $4}'`; [[ $web_ext_ip == "<none>" ||  $web_ext_ip == "<pending>" ]]; do
+    echo "Pending external IP"
+    sleep 2
+    echo "-------------------------------------"
+  done  
+  echo "got external ip: $web_ext_ip"
+  
+  echo -n "\$ curl --write-out %{http_code} --silent --output /dev/null $web_ext_ip/media/favicon.ico"
   read text
-  RESULT=$(curl --write-out %{http_code} --silent --output /dev/null kind-worker:$web_node_port/media/favicon.ico)
+  RESULT=$(curl --write-out %{http_code} --silent --output /dev/null $web_ext_ip/media/favicon.ico)
   echo $RESULT
   echo "---------------------------------------------------"
 }
@@ -191,7 +191,7 @@ echo -n "Next >>"
 read text
 clear
 echo -e "${ORANGE}---------------------------------------------------------------------------------------------"
-echo -e "3. Verify the pods are ready and you are able to access Lets-Chat-Web UI via browser using node-port${NC}"
+echo -e "3. Verify the pods are ready and you are able to access Lets-Chat-Web UI via browser${NC}"
 echo -n ">>"
 read text
 echo -ne "${GREEN}Verify the pods are ready, ${NC}"
@@ -199,8 +199,8 @@ get-pods-every-2-sec-until-running
 echo -n "Next >>"
 read text
 clear
-echo -e "${GREEN}Going to curl the Service on each node:${NC}"
-curl-each-node
+echo -e "${GREEN}Going to curl the Service:${NC}"
+curl-service
 echo -n "Next >>"
 read text
 clear
