@@ -1,12 +1,15 @@
-# Using Kubernetes Training
-In this course, you'll learn: 
-- The origin, architecture, primary components, and building blocks of Kubernetes
-- How to set up and access a Kubernetes cluster using Kind
-- Ways to run applications on the deployed Kubernetes environment and access the deployed applications
+# Using Kubernetes Workshop
+In this workshop, you'll learn: 
+- The architecture, primary components, and building blocks of Kubernetes
+- How to set up and access a Kubernetes cluster in AKS using kubectl
+- Ways to deploy and configure applications on Kubernetes
+
+[Power Point Presentation](https://github.com/navivi/k8s-training/raw/adapt_to_aks/day-1/Using%20Kubernetes%20Day%201.pptx)
 
 
-## K8s Training with Lets-Chat
-In this training we will deploy and scale **let's chat** application on kubernetes cluster. Let's Chat is a persistent messaging application that runs on Node.js and MongoDB with Nginx at the front.
+## Learning K8s with Lets-Chat
+In this workshop we will deploy and scale, on kubernetes cluster, the application: <img width="90" alt="Image" src="https://github.com/user-attachments/assets/54d801b9-6293-4d8e-bea6-3bd70fd46543" />   
+Let's Chat is a persistent messaging application that runs on Node.js and MongoDB with Nginx at the front.
 
 ![Let's Chat](http://i.imgur.com/0a3l5VF.png)
 
@@ -32,43 +35,69 @@ In this training we will deploy and scale **let's chat** application on kubernet
 13. [Use Lets-Chat chart-of-charts To Install/Upgrade](day-6/task-13/README.md)
 
 
-### Installations
+# Installations
+## - Using AKS
 
-##### Requirements
-* [Vagrant](https://www.vagrantup.com/downloads)
-* [VirtualBox](https://www.virtualbox.org/)
+### Prerequisites
 
-Run
+1. [Install Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
+2. [Install kubectl](https://learn.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-install-cli)
+   
+### Set cluster context
 
+Open terminal and run the following commands
+
+1. Login to your azure account
+```bash
+az login
 ```
-vagrant init navivi/k8s-training --box-version 1
-vagrant up
+
+2. Set the cluster subscription
+```bash
+az account set --subscription 9a4785ad-48b3-4c1a-b1e1-af8a924cd45d
 ```
 
-Show the desktop VM from VirtualBox, 
-
-Login Credentials are:
-
-- Username: vagrant
-
-- Password: vagrant
-
-![image](https://user-images.githubusercontent.com/34754379/118403830-f81e5400-b678-11eb-949a-b2b3f03db72c.png)
-
-Open the Terminal, by clicking the 'Show Applications' at the left bottom and search 'Terminal' 
-
-![image](https://user-images.githubusercontent.com/34754379/118403954-90b4d400-b679-11eb-97ec-a53b8f7f33a8.png)
-
-In the terminal, run:
+3. Download cluster credentials
+```bash
+az aks get-credentials --resource-group nesiarg --name k8s-workshop --overwrite-existing
 ```
-./kube-ssh
+
+4. Create your K8s namespace​
+
+Once you have run the command above to connect to the cluster, you can create your own namespace you will use in the workshop
+Create and set namespace - use your own alias​
+
+```bash
+kubectl create namespace nesiavivi
+```
+```bash
+kubectl config set-context k8s-workshop --namespace nesiaavivi
+```
+
+## - Using Kind
+
+### Prerequisites
+1. [Install Docker](https://docs.docker.com/get-docker/)
+2. [Install Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+3. [Install Kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
+
+Create the following file **kind.yaml**
+```yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker
+  - role: worker
+```
+
+Open the terminal and run:
+```
 kind create cluster --config kind.yaml
 ```
 
 It may take few minutes to create the kubernetes cluster...
 
-Once it is done, check the cluster is up and ready by runinng:
-```
-kubectl get nodes
-```
-![image](https://user-images.githubusercontent.com/34754379/118404499-d4a8d880-b67b-11eb-9cd1-30d012f42de0.png)
+<img width="690" alt="Image" src="https://github.com/user-attachments/assets/9752853d-2f76-46ba-b86b-7ab99e26748c" />
+
