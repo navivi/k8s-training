@@ -3,7 +3,7 @@
 
 1. Create a Deploy and a Service to Lets-Chat-DB microservice using **kubectl create -f db-deploy.yaml db-svc.yaml** command
   > * You can use bellow [Specifications Examples](#specifications-examples) to define the yaml files
-  > * You can use the public latest image. Image name: **mongo**
+  > * You can use the public image. Image name: **mongo:4.2**
   > * The MongoDB server is listening on port 27017
   > * Make sure you create ONLY one relica of this pod
   > * The service type of this microservice should not be NodePort - so don't add **type** to yaml
