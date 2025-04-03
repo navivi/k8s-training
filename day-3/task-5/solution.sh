@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: lc-db # The container name
-        image: mongo # The DockerHub image
+        image: mongo:4.2 # The DockerHub image
         ports:
         - containerPort: 27017 # Open pod port 80 for the container
         livenessProbe:
