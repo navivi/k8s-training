@@ -25,7 +25,6 @@ spec:
     hostPath:
       # directory location on host
       path: /data/nesia
-      # this field is optional
       type: DirectoryOrCreate
 ```
 #### pod-with-node-selector.yaml
