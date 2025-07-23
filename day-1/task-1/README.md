@@ -38,3 +38,24 @@ kubectl port-forward mypod 8888:80
 kubectl delete po my-pod-name
 
 ```
+
+### az cli Cheat Sheet
+```bash
+# Login to your azure account
+az login --tenant <tenant-id>
+
+# Set the cluster subscription
+az account set --subscription <subscription-id>
+
+# Download AKS cluster credentials
+az aks get-credentials --resource-group K8s-WorkshopRG --name k8s-workshop --overwrite-existing
+
+# Login to ACR 
+az acr login --name k8scssworkshop
+
+# pull some image, tag it and push it to ACR
+docker pull mcr.microsoft.com/mcr/hello-world
+docker tag mcr.microsoft.com/mcr/hello-world k8scssworkshop.azurecr.io/samples/hello-world
+docker push k8scssworkshop.azurecr.io/samples/hello-world
+
+```
